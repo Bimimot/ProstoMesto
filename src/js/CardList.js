@@ -4,8 +4,7 @@ export default class CardList {
     }
 
     addCard(element) {                                                                //добавление элемента карточки в контейнер карточек
-        this.cardElement = element;
-        this.container.appendChild(this.cardElement) // можно сразу передавать element
+        this.container.appendChild(element) 
     }
 
 

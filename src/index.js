@@ -44,11 +44,12 @@ import Signin from './js/Signin.js';
     const api = new Api({baseUrl: serverUrl});
     
     const newProfile = new UserInfo(profileForm, profileElement, api);                //создаем объект для обработки формы профиля, передаем методы api
+    const oneCard = new Card(myId, api);                                              //объект с методами создания и обработки одной отдельной карточки
     const doList = new CardList(rootContainer);
     const editAvatar = new Avatar(avatarForm, avatarElement, api);                    //создаем объект для обработки формы редактирования аватара, передаем методы api
     const cards = new PlusCard(plusCardForm, doList, api);                            //методы для обработки формы добавления карточки
     const signinUser = new Signin(signinForm, api);
-            
+          
     
     api.getUser()                                                                    //получаем данные о пользователе, получаем промис
     .then((result) => {
@@ -66,10 +67,8 @@ import Signin from './js/Signin.js';
     api.getInitialCards()                                                           //запрашиваем карточки, получаем промис
       .then((result) => {                                                           //если получили массив - выводим карточки
         result.data.forEach((value) => {
-          const startCard =
-            new Card(value, myId, api)                                              // передавать весь объект целиком
-              .create();                                                            //контейнер с карточкой
-          doList.addCard(startCard);                                                //добавляем на страницу созданный контейнер карты                                                               
+          const startCard = oneCard.create(value);                                   //создаем контейнер с карточкой
+          doList.addCard(startCard);                                                //добавляем на страницу созданный контейнер карточки                                                               
         })
         new Popup(popupCardContainer, '.place-card__image', validator);             //и только теперь начинаем слущать открытие попапов на карточках
       })

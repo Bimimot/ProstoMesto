@@ -25,7 +25,6 @@ export default class Api {
   }
 
 
-
   getInitialCards() {
     return (                                                                                            //получаем стартовые карточки
       fetch((this.baseUrl + '/cards'), {

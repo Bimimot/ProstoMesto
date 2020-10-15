@@ -1,11 +1,11 @@
 export default class Card {
-    constructor(value, myId, api) {
-        this.name = value.name;
-        this.link = value.link;
-        this.likes = value.likes.length;
-        this.likers = value.likes;
-        this.cardId = value._id;
-        this.ownerId = value.owner._id;
+    constructor(myId, api) {
+        // this.name = value.name;
+        // this.link = value.link;
+        // this.likes = value.likes.length;
+        // this.likers = value.likes;
+        // this.cardId = value._id;
+        // this.ownerId = value.owner._id;
         this.myId = myId;
         this.api = api;
         this.create = this.create.bind(this);
@@ -18,7 +18,7 @@ export default class Card {
             .cardElement.querySelector('.place-card__like-icon')
             .addEventListener('click', this._clickedLike);
 
-        if (this.canDelete()) {
+        if (this._canDelete()) {
             this
                 .cardElement.querySelector('.place-card__delete-icon')
                 .addEventListener('click', this._remove)
@@ -82,7 +82,13 @@ export default class Card {
         }
     }
 
-    create() {
+    create(value) {
+    this.name = value.name;
+    this.link = value.link;
+    this.likes = value.likes.length;
+    this.likers = value.likes;
+    this.cardId = value._id;
+    this.ownerId = value.owner._id;
         const cardContainer = document.createElement('div');                              // создаем div-контейнер для карточки - на входе объект со свойствами карточки name и link                                       
         cardContainer.insertAdjacentHTML('beforeend', `             
             <div class="place-card">
@@ -97,7 +103,7 @@ export default class Card {
                 </div>
             </div>`);                                                                     //вкладываем в контейнер нужную разметку  
 
-        if (this.canDelete()) {                                                           //если можем удалить - создаем элемент кнопки удаления
+        if (this._canDelete()) {                                                           //если можем удалить - создаем элемент кнопки удаления
             const imageContainer = cardContainer.querySelector('.place-card__image');
             imageContainer.insertAdjacentHTML('beforeend', `<button class="place-card__delete-icon"></button>`);
         }
@@ -117,7 +123,7 @@ export default class Card {
         return cardContainer;                                                             // получаем  DOM-объект, со всеми свойствами - картинкой,кнопками, текстом
     }
 
-    canDelete() {
+    _canDelete() {
         if (this.ownerId === this.myId) { return true }
         else { return false }
     }
