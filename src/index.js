@@ -9,6 +9,7 @@ import PlusCard from './js/PlusCard.js';
 import Popup from './js/Popup.js';
 import UserInfo from './js/UserInfo.js';
 import Signin from './js/Signin.js';
+import Signup from './js/Signup.js';
 
     //dom-элементы, для работы с методами классов
     const mainContainer = document.querySelector('.root');                            //основной контейнер, нужен для слушания keydown
@@ -16,7 +17,10 @@ import Signin from './js/Signin.js';
     const plusCardForm = document.querySelector('.popup__form_type_add-place');
     const profileForm = document.querySelector('.popup__form_type_edit-ptofile');
     const avatarForm = document.querySelector('.popup__form_type_avatar');
+    
     const signinForm = document.querySelector('.popup__form_type_signin');
+    const signupForm = document.querySelector('.popup__form_type_signup');
+    
     const profileElement = document.querySelector('.profile');
     const avatarElement = document.querySelector('.user-info__photo');
 
@@ -49,7 +53,7 @@ import Signin from './js/Signin.js';
     const editAvatar = new Avatar(avatarForm, avatarElement, api);                    //создаем объект для обработки формы редактирования аватара, передаем методы api
     const cards = new PlusCard(plusCardForm, doList, api, oneCard);                            //методы для обработки формы добавления карточки
     const signinUser = new Signin(signinForm, api);
-          
+    const signupUser = new Signup(signupForm, api);          
     
     api.getUser()                                                                    //получаем данные о пользователе, получаем промис
     .then((result) => {

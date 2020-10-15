@@ -24,16 +24,19 @@ export default class Api {
     ); 
   }
 
-  signupUser(mail, pass){
+  signupUser(name, about, avatar, mail, pass){
     return (
-      fetch((this.baseUrl + '/signin'), {
+      fetch((this.baseUrl + '/signup'), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         // credentials: 'include',
         body: JSON.stringify({
+          name: name,
+          about: about,
+          avatar: avatar,
           email: mail,
-          password: pass,
-        }),
+          password: pass
+        })
       })
       .then(res => {
         if (res.ok) {
