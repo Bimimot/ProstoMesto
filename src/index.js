@@ -47,7 +47,7 @@ import Signin from './js/Signin.js';
     const oneCard = new Card(myId, api);                                              //объект с методами создания и обработки одной отдельной карточки
     const doList = new CardList(rootContainer);
     const editAvatar = new Avatar(avatarForm, avatarElement, api);                    //создаем объект для обработки формы редактирования аватара, передаем методы api
-    const cards = new PlusCard(plusCardForm, doList, api);                            //методы для обработки формы добавления карточки
+    const cards = new PlusCard(plusCardForm, doList, api, oneCard);                            //методы для обработки формы добавления карточки
     const signinUser = new Signin(signinForm, api);
           
     
