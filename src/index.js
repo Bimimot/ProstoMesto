@@ -53,27 +53,30 @@ import Signin from './js/Signin.js';
     
     api.getUser()                                                                    //получаем данные о пользователе, получаем промис
     .then((result) => {
+      myId = result.data._id;                                                           //запоминаю свой ID для использования
+
+        api.getInitialCards()                                                           //запрашиваем карточки, получаем промис
+        .then((result) => {                                                           //если получили массив - выводим карточки
+          result.data.forEach((value) => {
+            const startCard = oneCard.create(value, myId);                                   //создаем контейнер с карточкой, учитываем myId для показа лайков
+            doList.addCard(startCard);                                                //добавляем на страницу созданный контейнер карточки                                                               
+          })
+          new Popup(popupCardContainer, '.place-card__image', validator);             //и только теперь начинаем слущать открытие попапов на карточках
+        })
+        .catch((err) => {
+          console.log(err);
+        })
 
       newProfile.renderUser(result.data.name, result.data.about);                            //если успешно - отрисовываем профиль
       editAvatar.renderAvatar(result.data.avatar);                                      //и аватар
-      myId = result.data._id;                                                           //запоминаю свой ID для использования
+      
     })
     .catch((err) => {
       console.log(err);
     })
       
   
-    api.getInitialCards()                                                           //запрашиваем карточки, получаем промис
-      .then((result) => {                                                           //если получили массив - выводим карточки
-        result.data.forEach((value) => {
-          const startCard = oneCard.create(value, myId);                                   //создаем контейнер с карточкой
-          doList.addCard(startCard);                                                //добавляем на страницу созданный контейнер карточки                                                               
-        })
-        new Popup(popupCardContainer, '.place-card__image', validator);             //и только теперь начинаем слущать открытие попапов на карточках
-      })
-      .catch((err) => {
-        console.log(err);
-      })
+
   
   
     const validator = new FormValidator(errorsMessages);                               //создаем валидатор, передаем тексты ошибок

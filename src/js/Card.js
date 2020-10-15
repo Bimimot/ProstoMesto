@@ -31,28 +31,30 @@ export default class Card {
         if (this._likedCard(likers, myId)) {
             this.api.deleteLike(cardId)
                 .then((res) => {
-                    this._updateLikes(this.heart, res.data, cardContainer)
+                    this._updateLikes(res.data, cardContainer)
                 })
         }
         else {
             this.api.putLike(cardId)
                 .then((res) => {
-                    this._updateLikes(this.heart, res.data, cardContainer)
+                    this._updateLikes(res.data, cardContainer)
                 })
         }
 
     }
 
-    _updateLikes(heart, cardValue, cardContainer) {
+    _updateLikes(cardValue, cardContainer) {
         let likes = cardValue.likes.length;
-        this._renderLikeHeart(cardContainer);
         this._setLikes(cardContainer, likes);
+            cardContainer.querySelector(".place-card__like-icon")
+                .classList.toggle('place-card__like-icon_liked');
+
     }
 
-    _renderLikeHeart(cardContainer) {
-        let heart = cardContainer.querySelector(".place-card__like-icon");
-        heart.classList.toggle('place-card__like-icon_liked');
-    }
+    // _renderLikeHeart(cardContainer) {
+    //     let heart = cardContainer.querySelector(".place-card__like-icon");
+    //     heart.classList.toggle('place-card__like-icon_liked');
+    // }
 
     _setLikes(cardContainer, likes) {
         cardContainer.querySelector(".place-card__likes-count").textContent = likes;
@@ -117,8 +119,9 @@ export default class Card {
 
         cardContainer.querySelector(".place-card__name").textContent = this.name;         //устанавливаем название и фон карточки                       
         cardContainer.querySelector(".place-card__image").style.backgroundImage = `url(${this.link})`;
+
         if (this._likedCard(this.likers, this.myId)) {
-            this._renderLikeHeart(cardContainer)
+            cardContainer.querySelector(".place-card__like-icon").classList.add('place-card__like-icon_liked')
         };                             //устанавливаем состояние сердчека-лайка
         this._setLikes(cardContainer, this.likes);                                                                 //устанавливаем количество лайков
 
