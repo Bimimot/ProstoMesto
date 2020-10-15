@@ -13,11 +13,9 @@ export default class Card {
         this._clickedLike = this._clickedLike.bind(this)
     }
 
-    _likeListener(myId, cardId, cardContainer, likers) {                                                                 //слушатель удаления карточки и лайка        
+    _likeListener(myId, cardId, cardContainer) {                                                                 //слушатель удаления карточки и лайка        
             cardContainer.querySelector('.place-card__like-icon')
-            .addEventListener('click', () => this._clickedLike(myId, cardId, cardContainer, likers));
-
-    
+            .addEventListener('click', () => this._clickedLike(myId, cardId, cardContainer, this.likers));    
     }
 
     _deleteListener(myId, cardId, cardContainer){
@@ -27,16 +25,18 @@ export default class Card {
         }
     }
 
-    _clickedLike(myId, cardId, cardContainer, likers) {
-        if (this._likedCard(likers, myId)) {
+    _clickedLike(myId, cardId, cardContainer) { 
+        if (this._likedCard(this.likers, myId)) {
             this.api.deleteLike(cardId)
                 .then((res) => {
+                    console.log(res);
                     this._updateLikes(res.data, cardContainer)
                 })
         }
         else {
             this.api.putLike(cardId)
                 .then((res) => {
+                    console.log(res);
                     this._updateLikes(res.data, cardContainer)
                 })
         }
@@ -45,16 +45,12 @@ export default class Card {
 
     _updateLikes(cardValue, cardContainer) {
         let likes = cardValue.likes.length;
+        this.likers = cardValue.likes;
         this._setLikes(cardContainer, likes);
             cardContainer.querySelector(".place-card__like-icon")
                 .classList.toggle('place-card__like-icon_liked');
 
     }
-
-    // _renderLikeHeart(cardContainer) {
-    //     let heart = cardContainer.querySelector(".place-card__like-icon");
-    //     heart.classList.toggle('place-card__like-icon_liked');
-    // }
 
     _setLikes(cardContainer, likes) {
         cardContainer.querySelector(".place-card__likes-count").textContent = likes;
