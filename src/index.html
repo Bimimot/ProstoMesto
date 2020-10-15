@@ -9,23 +9,33 @@
 </head>
 <body>
   <div class="root">
-    <header class="header root__section">
+    <header class="header">
       <img src="<%=require('./images/logo.svg').default%>" alt="mesto logo" class="logo">      
     </header>
-    <div class="profile root__section">
-      <div class="user-info">
-        <div class="user-info__photo"></div>
-        <div class="user-info__data">
-          <h1 class="user-info__name"> </h1>
-          <p class="user-info__job"> </p>
-          <button class="button user-info__button user-info__button_type_edit-profile">Edit</button>
+    <div class="intro">
+      <div class= "profile">
+        <div class="user-info">
+          <div class="user-info__photo"></div>
+          <div class="user-info__data">
+            <h1 class="user-info__name"> </h1>
+            <p class="user-info__job"> </p>
+            <button class="user-info__button">Edit</button>
+          </div>
         </div>
-        <button class="button user-info__button user-info__button_type_add-place">+</button>
-      </div>
     </div>
+    <div class="menu">
+      <button class="menu menu__button">Вход</button>
+      <button class="menu menu__button">+</button>
+
+      <!-- <button class="button user-info__button user-info__button_type_add-place">Вход</button>
+      <button class="button user-info__button user-info__button_type_add-place">+</button> -->
+    </div>  
+    </div>
+
     <div class="places-list root__section">
 
     </div>
+
     <div class="popup popup_type_add-place">
       <div class="popup__content popup__content_type_form">
         <img src="./images/close.svg" alt="" class="popup__close">

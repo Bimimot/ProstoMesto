@@ -1,7 +1,16 @@
-@import url(./_type/user-info__button_type_add-place.css);
-@import url(./_type/user-info__button_type_edit-profile.css);
-
 .user-info__button {
-  
+  margin-top: 24px;
+  width: 38px;
+  height: 18px;
+  font-size: 12px;
+    background-color: transparent;
+    border: 1px solid white;
+    color: white;
   cursor: pointer;
+}
+
+.user-info__button:hover {
+  cursor: pointer;
+  border-color: lightgreen;
+  color: lightgreen;
 }

@@ -1,10 +1,13 @@
-@import url(./__section/root__section.css);
-
 .root {
+position: relative;
+display: flex;
+width: calc(100% - 400px);
+flex-direction: column;
+margin: auto;
   background-color: black;
-  min-height: 100vh;
   font-family: 'Inter';
   padding-bottom: 194px;
+
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
