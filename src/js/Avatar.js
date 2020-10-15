@@ -30,7 +30,7 @@ export default class Avatar {
 
         this.api.setAvatar(this.link)                                  //отправляем данные на сервер методом класса api
             .then((result) => {                                                    //если есть результат - перерисовывам аватар
-                this.renderAvatar(result.avatar);
+                this.renderAvatar(this.link);
             })
             .catch((err) => {
                 console.log(err);
