@@ -3,6 +3,29 @@ export default class Api {
     this.baseUrl = baseUrl;
   }
 
+  signinUser(mail, pass){
+    return (
+      fetch((this.baseUrl + '/signin'), {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        // credentials: 'include',
+        body: JSON.stringify({
+          email: mail,
+          password: pass,
+        }),
+      })
+      .then(res => {
+        if (res.ok) {
+          return res.json();
+        }
+        return Promise.reject(`Ошибка: ${res.status}`);                                                  
+      })
+
+    ); 
+  }
+
+
+
   getInitialCards() {
     return (                                                                                            //получаем стартовые карточки
       fetch((this.baseUrl + '/cards'), {
@@ -18,6 +41,22 @@ export default class Api {
         })
     )
   }
+  getUser() {                                                                                             //получаем данные пользователя
+    return(
+    fetch((this.baseUrl + '/users/me'), {
+      headers: {
+        authorization: `Bearer ${localStorage.getItem('token')}`,
+        'Content-Type': 'application/json'
+      },
+  })
+    .then(res => {
+      if (res.ok) {
+        return res.json();
+      }
+      return Promise.reject(`Ошибка: ${res.status}`);                                                  
+    })
+)
+}
 
   setProfile(newName, newAbout) {                                                                       //передаем новые данные профиля
     return (

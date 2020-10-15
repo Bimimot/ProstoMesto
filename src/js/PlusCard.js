@@ -1,3 +1,5 @@
+
+
 export default class PlusCard {
     constructor(formElement, doList, api) {
         this.doList = doList;
@@ -24,7 +26,7 @@ export default class PlusCard {
 
         this.api.postNewCard(this.name, this.link)
             .then((result) => {                                                    //если есть результат - рисуем карточку
-                this._renderCard(result, result.owner._id);
+                this._renderCard(result.data, result.data.owner._id);
             })
             .catch((err) => {
                 console.log(err);

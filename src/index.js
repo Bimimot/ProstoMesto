@@ -8,6 +8,7 @@ import FormValidator from './js/FormValidator.js';
 import PlusCard from './js/PlusCard.js';
 import Popup from './js/Popup.js';
 import UserInfo from './js/UserInfo.js';
+import Signin from './js/Signin.js';
 
     //dom-элементы, для работы с методами классов
     const mainContainer = document.querySelector('.root');                            //основной контейнер, нужен для слушания keydown
@@ -15,9 +16,10 @@ import UserInfo from './js/UserInfo.js';
     const plusCardForm = document.querySelector('.popup__form_type_add-place');
     const profileForm = document.querySelector('.popup__form_type_edit-ptofile');
     const avatarForm = document.querySelector('.popup__form_type_avatar');
+    const signinForm = document.querySelector('.popup__form_type_signin');
     const profileElement = document.querySelector('.profile');
     const avatarElement = document.querySelector('.user-info__photo');
-  
+
     const popupProfileContainer = document.querySelector('.popup_type_edit-profile');
     const popupAvatarContainer = document.querySelector('.popup_type_avatar');
     const popupSigninContainer = document.querySelector('.popup_type_signin');
@@ -45,18 +47,24 @@ import UserInfo from './js/UserInfo.js';
     const doList = new CardList(rootContainer);
     const editAvatar = new Avatar(avatarForm, avatarElement, api);                    //создаем объект для обработки формы редактирования аватара, передаем методы api
     const cards = new PlusCard(plusCardForm, doList, api);                            //методы для обработки формы добавления карточки
-
-        function isAuth() { // проверка авторизации
-          if (localStorage.getItem('token') === null) { return false; }
-          return true;
-        }
-
-
-        // myId = result._id;                                                           //запоминаю свой ID для использования
+    const signinUser = new Signin(signinForm, api);
+            
+    
+    api.getUser()                                                                    //получаем данные о пользователе, получаем промис
+    .then((result) => {
+      console.log(result);
+      console.log(result.data.name);
+      newProfile.renderUser(result.data.name, result.data.about);                            //если успешно - отрисовываем профиль
+      editAvatar.renderAvatar(result.data.avatar);                                      //и аватар
+      myId = result._id;                                                           //запоминаю свой ID для использования
+    })
+    .catch((err) => {
+      console.log(err);
+    })
+      
   
     api.getInitialCards()                                                           //запрашиваем карточки, получаем промис
       .then((result) => {                                                           //если получили массив - выводим карточки
-        console.log(result);
         result.data.forEach((value) => {
           const startCard =
             new Card(value, myId, api)                                              // передавать весь объект целиком
