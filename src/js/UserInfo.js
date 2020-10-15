@@ -45,7 +45,7 @@ export default class UserInfo {
 
         this.api.setProfile(this.name, this.about)                                  //отправляем данные на сервер методом класса api
             .then( (result) => {                                                    //если есть результат - перерисовывам данные о пользователе
-                    this.renderUser(result.name, result.about);                
+                    this.renderUser(this.name, this.about);                
             })
             .catch((err) => {
                 console.log(err);

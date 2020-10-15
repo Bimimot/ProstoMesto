@@ -24,6 +24,26 @@ export default class Api {
     ); 
   }
 
+  signupUser(mail, pass){
+    return (
+      fetch((this.baseUrl + '/signin'), {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        // credentials: 'include',
+        body: JSON.stringify({
+          email: mail,
+          password: pass,
+        }),
+      })
+      .then(res => {
+        if (res.ok) {
+          return res.json();
+        }
+        return Promise.reject(`Ошибка: ${res.status}`);                                                  
+      })
+
+    ); 
+  }
 
   getInitialCards() {
     return (                                                                                            //получаем стартовые карточки

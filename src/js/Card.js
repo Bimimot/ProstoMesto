@@ -1,12 +1,5 @@
 export default class Card {
-    constructor(api) {
-        // this.name = value.name;
-        // this.link = value.link;
-        // this.likes = value.likes.length;
-        // this.likers = value.likes;
-        // this.cardId = value._id;
-        // this.ownerId = value.owner._id;
-        
+    constructor(api) {        
         this.api = api;
         this.create = this.create.bind(this);
         this._remove = this._remove.bind(this);
@@ -29,14 +22,12 @@ export default class Card {
         if (this._likedCard(this.likers, myId)) {
             this.api.deleteLike(cardId)
                 .then((res) => {
-                    console.log(res);
                     this._updateLikes(res.data, cardContainer)
                 })
         }
         else {
             this.api.putLike(cardId)
                 .then((res) => {
-                    console.log(res);
                     this._updateLikes(res.data, cardContainer)
                 })
         }
