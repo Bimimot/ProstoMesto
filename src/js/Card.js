@@ -1,12 +1,12 @@
 export default class Card {
-    constructor(myId, api) {
+    constructor(api) {
         // this.name = value.name;
         // this.link = value.link;
         // this.likes = value.likes.length;
         // this.likers = value.likes;
         // this.cardId = value._id;
         // this.ownerId = value.owner._id;
-        this.myId = myId;
+        
         this.api = api;
         this.create = this.create.bind(this);
         this._remove = this._remove.bind(this);
@@ -82,13 +82,15 @@ export default class Card {
         }
     }
 
-    create(value) {
+    create(value, myId) {
     this.name = value.name;
     this.link = value.link;
     this.likes = value.likes.length;
     this.likers = value.likes;
     this.cardId = value._id;
-    this.ownerId = value.owner._id;
+    this.ownerId = value.owner;
+    this.myId = myId;
+    
         const cardContainer = document.createElement('div');                              // создаем div-контейнер для карточки - на входе объект со свойствами карточки name и link                                       
         cardContainer.insertAdjacentHTML('beforeend', `             
             <div class="place-card">
@@ -103,7 +105,7 @@ export default class Card {
                 </div>
             </div>`);                                                                     //вкладываем в контейнер нужную разметку  
 
-        if (this._canDelete()) {                                                           //если можем удалить - создаем элемент кнопки удаления
+        if (this._canDelete(myId)) {                                                           //если можем удалить - создаем элемент кнопки удаления
             const imageContainer = cardContainer.querySelector('.place-card__image');
             imageContainer.insertAdjacentHTML('beforeend', `<button class="place-card__delete-icon"></button>`);
         }
@@ -119,12 +121,12 @@ export default class Card {
         this._getLikes();                                                                 //устанавливаем количество лайков
 
         //для возможности использования элемента в других методах этого же класса
-        this._setEventListeners();
+        this._setEventListeners(value, myId);
         return cardContainer;                                                             // получаем  DOM-объект, со всеми свойствами - картинкой,кнопками, текстом
     }
 
-    _canDelete() {
-        if (this.ownerId === this.myId) { return true }
+    _canDelete(myId) {
+        if (this.ownerId === myId) { return true }
         else { return false }
     }
 
