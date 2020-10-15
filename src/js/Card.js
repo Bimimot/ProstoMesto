@@ -13,15 +13,18 @@ export default class Card {
         this._clickedLike = this._clickedLike.bind(this)
     }
 
-    _setEventListeners() {                                                                 //слушатель удаления карточки и лайка
+    _setEventListeners(myId, cardId) {                                                                 //слушатель удаления карточки и лайка
         this
             .cardElement.querySelector('.place-card__like-icon')
             .addEventListener('click', this._clickedLike);
 
-        if (this._canDelete()) {
-            this
-                .cardElement.querySelector('.place-card__delete-icon')
-                .addEventListener('click', this._remove)
+    
+    }
+
+    _deleteListener(myId, cardId, cardContainer){
+        if (this._canDelete(myId)) {
+                cardContainer.querySelector('.place-card__delete-icon')
+                .addEventListener('click', () => this._remove(cardId, cardContainer))
         }
     }
 
@@ -69,11 +72,11 @@ export default class Card {
         return likeStatement
     }
 
-    _remove() {
+    _remove(cardId, cardContainer) {
         if (window.confirm("Вы действительно хотите удалить эту карточку?")) {
-            this.api.deleteCard(this.cardId)
+            this.api.deleteCard(cardId)
                 .then((result) => {                                                           //если удалили с сервера - убираем карточку
-                    this.cardElement.remove();
+                    cardContainer.remove();
                     console.log(result);
                 })
                 .catch((err) => {
@@ -121,7 +124,7 @@ export default class Card {
         this._getLikes();                                                                 //устанавливаем количество лайков
 
         //для возможности использования элемента в других методах этого же класса
-        this._setEventListeners(value, myId);
+        this._deleteListener(this.myId, this.cardId, cardContainer);
         return cardContainer;                                                             // получаем  DOM-объект, со всеми свойствами - картинкой,кнопками, текстом
     }
 
