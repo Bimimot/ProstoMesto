@@ -20,6 +20,8 @@ import UserInfo from './js/UserInfo.js';
   
     const popupProfileContainer = document.querySelector('.popup_type_edit-profile');
     const popupAvatarContainer = document.querySelector('.popup_type_avatar');
+    const popupSigninContainer = document.querySelector('.popup_type_signin');
+    const popupSignupContainer = document.querySelector('.popup_type_signup');
     const popupCardContainer = document.querySelector('.popup_type_card');
     const popupAddCardContainer = document.querySelector('.popup_type_add-place');
   
@@ -30,41 +32,32 @@ import UserInfo from './js/UserInfo.js';
     const errorsMessages = {
       validateBlank: 'Это обязательное поле',
       validateText: 'Должно быть от 2 до 30 символов',
-      validateUrl: 'Здесь должна быть ссылка'
+      validateUrl: 'Здесь должна быть ссылка',
+      validateEmail: 'Нужно указать адрес почты',
+      validatePassword: 'Нужно не менее 8 символов',
     }
 
-    const serverUrl = (NODE_ENV === 'development') ? 'http://praktikum.tk/cohort10' : 'https://praktikum.tk/cohort10';
-    const api = new Api({
-      baseUrl: serverUrl,
-      headers: {
-        authorization: 'caf701ff-6f39-4585-92c8-ebdddadba86b',
-        'Content-Type': 'application/json'
-      }
-    });
-  
+    // const serverUrl = (NODE_ENV === 'development') ? 'http://praktikum.tk/cohort10' : 'https://praktikum.tk/cohort10';
+    const serverUrl = 'http://localhost:3000';
+    const api = new Api({baseUrl: serverUrl});
     
-
     const newProfile = new UserInfo(profileForm, profileElement, api);                //создаем объект для обработки формы профиля, передаем методы api
     const doList = new CardList(rootContainer);
-    const editAvatar = new Avatar(avatarForm, avatarElement, api);
+    const editAvatar = new Avatar(avatarForm, avatarElement, api);                    //создаем объект для обработки формы редактирования аватара, передаем методы api
     const cards = new PlusCard(plusCardForm, doList, api);                            //методы для обработки формы добавления карточки
 
-    
+        function isAuth() { // проверка авторизации
+          if (localStorage.getItem('token') === null) { return false; }
+          return true;
+        }
 
-    api.getUser()                                                                    //получаем данные о пользователе, получаем промис
-      .then((result) => {
-        newProfile.renderUser(result.name, result.about);                            //если успешно - отрисовываем профиль
-        editAvatar.renderAvatar(result.avatar);                                      //и аватар
-        myId = result._id;                                                           //запоминаю свой ID для использования
-      })
-      .catch((err) => {
-        console.log(err);
-      })
-  
+
+        // myId = result._id;                                                           //запоминаю свой ID для использования
   
     api.getInitialCards()                                                           //запрашиваем карточки, получаем промис
       .then((result) => {                                                           //если получили массив - выводим карточки
-        result.forEach((value) => {
+        console.log(result);
+        result.data.forEach((value) => {
           const startCard =
             new Card(value, myId, api)                                              // передавать весь объект целиком
               .create();                                                            //контейнер с карточкой
@@ -79,9 +72,11 @@ import UserInfo from './js/UserInfo.js';
   
     const validator = new FormValidator(errorsMessages);                               //создаем валидатор, передаем тексты ошибок
   
-    const editProfilePopup = new Popup(popupProfileContainer, '.user-info__button_type_edit-profile', validator);
-    const editAvatarPopup = new Popup(popupAvatarContainer, '.user-info__photo', validator)
-    const plusCardPopup = new Popup(popupAddCardContainer, '.user-info__button_type_add-place', validator);
+    const editProfilePopup = new Popup(popupProfileContainer, '.user-info__button', validator);
+    const editAvatarPopup = new Popup(popupAvatarContainer, '.user-info__photo', validator);
+    const signinPopup = new Popup(popupSigninContainer, '.menu__button_type_signin', validator);
+    const signupPopup = new Popup(popupSignupContainer, '.popup__button_type_signup-open', validator);
+    const plusCardPopup = new Popup(popupAddCardContainer, '.menu__button_type_add-place', validator);
 
   
   

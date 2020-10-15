@@ -24,11 +24,8 @@
         </div>
     </div>
     <div class="menu">
-      <button class="menu menu__button">Вход</button>
-      <button class="menu menu__button">+</button>
-
-      <!-- <button class="button user-info__button user-info__button_type_add-place">Вход</button>
-      <button class="button user-info__button user-info__button_type_add-place">+</button> -->
+      <button class="menu menu__button menu__button_type_signin">Вход</button>
+      <button class="menu menu__button menu__button_type_add-place">+</button>
     </div>  
     </div>
 
@@ -60,6 +57,7 @@
         <img src="<%=require('./images/close.svg').default%>" alt="" class="popup__close">
         <h3 class="popup__title">Редактировать профиль</h3>
         <form class="popup__form popup__form_type_edit-ptofile" name="edit-profile">
+
           <div class="popup__input-container">
             <input type="text" name="name"  minlength="2" maxlength="30" class="popup__input popup__input_type_name" placeholder="Имя">
             <span class="error-message error-message_type_name"> </span>
@@ -68,7 +66,8 @@
             <input type="text" name="job"  minlength="2" maxlength="30" class="popup__input popup__input_type_job" placeholder="О себе">
             <span class="error-message error-message_type_job"> </span>
           </div>
-            <button type="submit" class="button popup__button popup__button_type_edit-profile ">Сохранить</button>
+
+          <button type="submit" class="button popup__button popup__button_type_edit-profile ">Сохранить</button>
         </form>
       </div>
     </div>
@@ -87,12 +86,65 @@
       </div>
     </div>
 
+    <div class="popup popup_type_signin">
+      <div class="popup__content popup__content_type_form">
+        <img src="<%=require('./images/close.svg').default%>" alt="" class="popup__close">
+        <h3 class="popup__title">Войти</h3>
+        <form class="popup__form popup__form_type_signin" name="signin">
+          <div class="popup__input-container">
+            <input type="email" name="email"  minlength="2" maxlength="30" class="popup__input popup__input_type_name" placeholder="Email">
+            <span class="error-message error-message_type_mail"> </span>
+          </div>
+          <div class="popup__input-container">
+            <input type="text" name="password"  minlength="8"  class="popup__input popup__input_type_password" placeholder="Пароль">
+            <span class="error-message error-message_type_name"> </span>
+          </div>
+          <button type="submit" class="button popup__button popup__button_type_edit-profile ">Войти</button>
+          <button class="button popup__button popup__button_type_signup-open">Регистрация</button>
+        </form>
+      </div>
+    </div>
+
+    <div class="popup popup_type_signup">
+      <div class="popup__content popup__content_type_form">
+        <img src="<%=require('./images/close.svg').default%>" alt="" class="popup__close">
+        <h3 class="popup__title">Регистрация</h3>
+        <form class="popup__form popup__form_type_signin" name="signup">
+          <div class="popup__input-container">
+            <input type="text" name="name"  minlength="2" maxlength="30" class="popup__input popup__input_type_name" placeholder="Имя">
+            <span class="error-message error-message_type_name"> </span>
+          </div>
+          <div class="popup__input-container">  
+            <input type="text" name="job"  minlength="2" maxlength="30" class="popup__input popup__input_type_job" placeholder="О себе">
+            <span class="error-message error-message_type_job"> </span>
+          </div>
+          <div class="popup__input-container">
+            <input name="link" type="url" class="popup__input popup__input_type_link" placeholder="Ссылка на аватар">
+            <span class="error-message error-message_type_link"> </span>
+          </div>
+          
+          <div class="popup__input-container">
+            <input type="email" name="email"  minlength="2" maxlength="30" class="popup__input popup__input_type_name" placeholder="Email">
+            <span class="error-message error-message_type_mail"> </span>
+          </div>
+          <div class="popup__input-container">
+            <input type="text" name="password"  minlength="8"  class="popup__input popup__input_type_password" placeholder="Пароль">
+            <span class="error-message error-message_type_name"> </span>
+          </div>
+
+          <button type="submit" class="button popup__button popup__button_type_signup ">Регистрация</button>
+        </form>
+      </div>
+    </div>
+
+
     <div class="popup popup_type_card">
       <div class="popup__content popup__content_type_card">
         <img src="<%=require('./images/close.svg').default%>" alt="" class="popup__close">
         <img src="" alt="foto" class="popup__image"> </img>
       </div>
     </div>
+
 
   </div>
   

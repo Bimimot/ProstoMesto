@@ -11,6 +11,7 @@ export default class FormValidator {
     else {
       if (!this.validateText(curInput, curError)) { return false };
       if (!this.validateUrl(curInput, curError)) { return false };
+      if (!this.validateEmail(curInput, curError)) { return false };
     }
 
     curError.textContent = '';                                                       //если ошибок не было - текста ошибки нет, значение проверки true
@@ -28,8 +29,14 @@ export default class FormValidator {
 
   validateText(curInput, curError) {                                                 //валидация текстового поля
 
-    if (curInput.getAttribute('type') === 'text' && (curInput.validity.tooShort || curInput.validity.toolong)) {
+    if (curInput.getAttribute('type') === 'text' && (curInput.getAttribute('name') !== 'password')
+    && (curInput.validity.tooShort || curInput.validity.toolong)) {
       curError.textContent = this.errorsMessages.validateText;                       //текст ошибки для текстового поля по условию
+      return false
+    };
+    if (curInput.getAttribute('type') === 'text' && (curInput.getAttribute('name') === 'password')
+    && (curInput.validity.tooShort)) {
+      curError.textContent = this.errorsMessages.validatePassword;                       //текст ошибки для пароля
       return false
     };
     return true
@@ -39,6 +46,15 @@ export default class FormValidator {
     if (curInput.getAttribute('type') === 'url' && !curInput.checkValidity())         //текст ошибки для url поля
     {
       curError.textContent = this.errorsMessages.validateUrl;
+      return false
+    };
+    return true
+  }
+  
+  validateEmail(curInput, curError) {                                                   //валидация поля для ссылки
+    if (curInput.getAttribute('type') === 'email' && !curInput.checkValidity())         //текст ошибки для url поля
+    {
+      curError.textContent = this.errorsMessages.validateEmail;
       return false
     };
     return true

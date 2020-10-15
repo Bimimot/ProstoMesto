@@ -1,27 +1,14 @@
 export default class Api {
   constructor({ baseUrl, headers }) {
     this.baseUrl = baseUrl;
-    this.headers = headers;
   }
-
-  getUser() {                                                                                             //получаем данные пользователя
-    return(
-    fetch((this.baseUrl + '/users/me'), {
-      headers: this.headers
-    })
-    .then(res => {
-      if (res.ok) {
-        return res.json();
-      }
-      return Promise.reject(`Ошибка: ${res.status}`);                                                  
-    })
-)
-}
 
   getInitialCards() {
     return (                                                                                            //получаем стартовые карточки
       fetch((this.baseUrl + '/cards'), {
-        headers: this.headers
+        headers: {
+          'Content-Type': 'application/json'
+        }
       })
         .then(res => {
           if (res.ok) {
@@ -36,7 +23,10 @@ export default class Api {
     return (
       fetch((this.baseUrl + '/users/me'), {
         method: 'PATCH',
-        headers: this.headers,
+        headers: {
+          authorization: `Bearer ${localStorage.getItem('token')}`,
+          'Content-Type': 'application/json'
+        },
         body: JSON.stringify({
           name: newName,
           about: newAbout
@@ -55,7 +45,10 @@ export default class Api {
     return (
       fetch((this.baseUrl + '/users/me/avatar'), {
         method: 'PATCH',
-        headers: this.headers,
+        headers: {
+          authorization: `Bearer ${localStorage.getItem('token')}`,
+          'Content-Type': 'application/json'
+        },
         body: JSON.stringify({
           avatar: newLink
         })
@@ -73,7 +66,10 @@ export default class Api {
     return (
       fetch( (this.baseUrl + '/cards'), {
         method: 'POST',
-        headers: this.headers,
+        headers: {
+          authorization: `Bearer ${localStorage.getItem('token')}`,
+          'Content-Type': 'application/json'
+        },
         body: JSON.stringify({
           name: newName,
           link: newLink
@@ -92,7 +88,10 @@ export default class Api {
     return (   
       fetch( (this.baseUrl + '/cards/' + cardId), {
         method: 'DELETE',
-        headers: this.headers
+        headers: {
+          authorization: `Bearer ${localStorage.getItem('token')}`,
+          'Content-Type': 'application/json'
+        },
       })
       .then(res => {
         if (res.ok) {
@@ -107,7 +106,10 @@ export default class Api {
     return (   
         fetch( (this.baseUrl + '/cards/like/' + cardId), {
           method: 'PUT',
-          headers: this.headers
+          headers: {
+            authorization: `Bearer ${localStorage.getItem('token')}`,
+            'Content-Type': 'application/json'
+          },
         })
         .then(res => {
           if (res.ok) {
@@ -122,7 +124,10 @@ export default class Api {
       return (   
           fetch( (this.baseUrl + '/cards/like/' + cardId), {
             method: 'DELETE',
-            headers: this.headers
+            headers: {
+              authorization: `Bearer ${localStorage.getItem('token')}`,
+              'Content-Type': 'application/json'
+            },
           })
           .then(res => {
             if (res.ok) {

@@ -19,7 +19,7 @@ export default class UserInfo {
 
     _openFormListener() {
         this.profileElement.
-                querySelector('.user-info__button_type_edit-profile').
+                querySelector('.user-info__button').
                 addEventListener('click', this._setUserInfoDefault)
     }
 

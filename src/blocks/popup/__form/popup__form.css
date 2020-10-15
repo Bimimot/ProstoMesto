@@ -1,5 +1,6 @@
 .popup__form {
-  margin-top: 60px;
+  margin-top: 20px;
+  padding: 0;
 }
 
 .popup__form_type_add-place {
