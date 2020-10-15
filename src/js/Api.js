@@ -142,7 +142,7 @@ export default class Api {
 
    putLike(cardId){
     return (   
-        fetch( (this.baseUrl + '/cards/like/' + cardId), {
+        fetch( (this.baseUrl + '/cards/' + cardId + '/likes'), {
           method: 'PUT',
           headers: {
             authorization: `Bearer ${localStorage.getItem('token')}`,
@@ -160,7 +160,7 @@ export default class Api {
 
     deleteLike(cardId){
       return (   
-          fetch( (this.baseUrl + '/cards/like/' + cardId), {
+          fetch( (this.baseUrl + '/cards/' + cardId + '/likes'), {
             method: 'DELETE',
             headers: {
               authorization: `Bearer ${localStorage.getItem('token')}`,

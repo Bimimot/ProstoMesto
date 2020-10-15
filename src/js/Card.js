@@ -13,10 +13,9 @@ export default class Card {
         this._clickedLike = this._clickedLike.bind(this)
     }
 
-    _setEventListeners(myId, cardId) {                                                                 //слушатель удаления карточки и лайка
-        this
-            .cardElement.querySelector('.place-card__like-icon')
-            .addEventListener('click', this._clickedLike);
+    _likeListener(myId, cardId, cardContainer, likers) {                                                                 //слушатель удаления карточки и лайка        
+            cardContainer.querySelector('.place-card__like-icon')
+            .addEventListener('click', () => this._clickedLike(myId, cardId, cardContainer, likers));
 
     
     }
@@ -28,42 +27,42 @@ export default class Card {
         }
     }
 
-    _clickedLike() {
-        if (this._likedCard()) {
-            this.api.deleteLike(this.cardId)
+    _clickedLike(myId, cardId, cardContainer, likers) {
+        if (this._likedCard(likers, myId)) {
+            this.api.deleteLike(cardId)
                 .then((res) => {
-                    this._updateLikes(this.heart, res)
+                    this._updateLikes(this.heart, res.data, cardContainer)
                 })
         }
         else {
-            this.api.putLike(this.cardId)
+            this.api.putLike(cardId)
                 .then((res) => {
-                    this._updateLikes(this.heart, res)
+                    this._updateLikes(this.heart, res.data, cardContainer)
                 })
         }
 
     }
 
-    _updateLikes(heart, cardValue) {
-        this.likers = cardValue.likes;
-        this.likes = cardValue.likes.length;
-        this._renderLikeHeart(heart);
-        this._getLikes();
+    _updateLikes(heart, cardValue, cardContainer) {
+        let likes = cardValue.likes.length;
+        this._renderLikeHeart(cardContainer);
+        this._setLikes(cardContainer, likes);
     }
 
-    _renderLikeHeart(heart) {
+    _renderLikeHeart(cardContainer) {
+        let heart = cardContainer.querySelector(".place-card__like-icon");
         heart.classList.toggle('place-card__like-icon_liked');
     }
 
-    _getLikes() {
-        this.cardElement.querySelector(".place-card__likes-count").textContent = this.likes;
+    _setLikes(cardContainer, likes) {
+        cardContainer.querySelector(".place-card__likes-count").textContent = likes;
     }
 
-    _likedCard() {
+    _likedCard(likers, myId) {
         let likeStatement = false;
 
-        this.likers.forEach(element => {
-            if (element._id === this.myId) {
+        likers.forEach(element => {
+            if (element === myId) {
                 likeStatement = true;
                 return
             }
@@ -114,17 +113,18 @@ export default class Card {
         }
 
         this.cardElement = cardContainer;
-        this.heart = this.cardElement.querySelector(".place-card__like-icon");
+        
 
         cardContainer.querySelector(".place-card__name").textContent = this.name;         //устанавливаем название и фон карточки                       
         cardContainer.querySelector(".place-card__image").style.backgroundImage = `url(${this.link})`;
-        if (this._likedCard()) {
-            this._renderLikeHeart(this.heart)
+        if (this._likedCard(this.likers, this.myId)) {
+            this._renderLikeHeart(cardContainer)
         };                             //устанавливаем состояние сердчека-лайка
-        this._getLikes();                                                                 //устанавливаем количество лайков
+        this._setLikes(cardContainer, this.likes);                                                                 //устанавливаем количество лайков
 
         //для возможности использования элемента в других методах этого же класса
         this._deleteListener(this.myId, this.cardId, cardContainer);
+        this._likeListener(this.myId, this.cardId, cardContainer, this.likers);
         return cardContainer;                                                             // получаем  DOM-объект, со всеми свойствами - картинкой,кнопками, текстом
     }
 
