@@ -1,4 +1,5 @@
 .user-info__photo {
+  position: relative;
   width: 150px;
   height: 150px;
   min-width: 150px;
@@ -6,6 +7,10 @@
   background-size: cover;
   background-position: center;
   background-color: darkgrey;
+    color: white;
+    font-size: 80px;
+    text-align: center;
+    line-height: 150px;
 }
 
 @media screen and (max-width: 980px) {

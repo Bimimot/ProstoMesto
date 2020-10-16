@@ -9,7 +9,6 @@ export default class Avatar {
 
         this.linkInput = this.formElement.querySelector('.popup__input_type_link');
 
-
         this.setSubmitListener()
     }
 
@@ -37,8 +36,9 @@ export default class Avatar {
             })
     }
 
-    renderAvatar(link) {                                             //отрисовываем аватар пользователя
+    renderAvatar(link) {                                             //отрисовываем аватар пользователя, убираем надпись на месте фото
         this.avatarElement.style.backgroundImage = 'url(' + link + ')';
+        document.querySelector('.user-info__photo').textContent = '';
     }
 }
 
