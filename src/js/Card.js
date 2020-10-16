@@ -6,9 +6,9 @@ export default class Card {
         this._clickedLike = this._clickedLike.bind(this)
     }
 
-    _likeListener(myId, cardId, cardContainer) {                                                                 //слушатель удаления карточки и лайка        
+    _likeListener(myId, cardId, cardContainer, likers) {                                                                 //слушатель удаления карточки и лайка        
             cardContainer.querySelector('.place-card__like-icon')
-            .addEventListener('click', () => this._clickedLike(myId, cardId, cardContainer, this.likers));    
+            .addEventListener('click', () => this._clickedLike(myId, cardId, cardContainer, likers));    
     }
 
     _deleteListener(myId, cardId, cardContainer){
@@ -18,17 +18,21 @@ export default class Card {
         }
     }
 
-    _clickedLike(myId, cardId, cardContainer) { 
+    _clickedLike(myId, cardId, cardContainer, likers) { 
         if (this._likedCard(this.likers, myId)) {
             this.api.deleteLike(cardId)
                 .then((res) => {
-                    this._updateLikes(res.data, cardContainer)
+                    this._updateLikes(res.data, cardContainer);
+                    console.log(res);
+                    console.log('лайк сняли');
                 })
         }
         else {
             this.api.putLike(cardId)
                 .then((res) => {
-                    this._updateLikes(res.data, cardContainer)
+                    this._updateLikes(res.data, cardContainer);
+                    console.log(res);
+                    console.log('лайк поставили');
                 })
         }
 
