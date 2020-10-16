@@ -1,61 +1,69 @@
 export default class Card {
-    constructor(api) {        
+    constructor(value, myId, api) {
+        this.name = value.name;
+        this.link = value.link;
+        this.likes = value.likes.length;
+        this.likers = value.likes;
+        this.cardId = value._id;
+        this.ownerId = value.owner;
+        this.myId = myId;
         this.api = api;
         this.create = this.create.bind(this);
         this._remove = this._remove.bind(this);
         this._clickedLike = this._clickedLike.bind(this)
     }
 
-    _likeListener(myId, cardId, cardContainer, likers) {                                                                 //слушатель удаления карточки и лайка        
-            cardContainer.querySelector('.place-card__like-icon')
-            .addEventListener('click', () => this._clickedLike(myId, cardId, cardContainer, likers));    
-    }
+    _setEventListeners() {                                                                 //слушатель удаления карточки и лайка
+        this
+            .cardElement.querySelector('.place-card__like-icon')
+            .addEventListener('click', this._clickedLike);
 
-    _deleteListener(myId, cardId, cardContainer){
-        if (this._canDelete(myId)) {
-                cardContainer.querySelector('.place-card__delete-icon')
-                .addEventListener('click', () => this._remove(cardId, cardContainer))
+        if (this.canDelete()) {
+            this
+                .cardElement.querySelector('.place-card__delete-icon')
+                .addEventListener('click', this._remove)
         }
     }
 
-    _clickedLike(myId, cardId, cardContainer, likers) { 
-        if (this._likedCard(this.likers, myId)) {
-            this.api.deleteLike(cardId)
+    _clickedLike() {
+        if (this._likedCard()) {
+            this.api.deleteLike(this.cardId)
                 .then((res) => {
-                    this._updateLikes(res.data, cardContainer);
                     console.log(res);
-                    console.log('лайк сняли');
+                    this._updateLikes(this.heart, res.data)
+                    
                 })
         }
         else {
-            this.api.putLike(cardId)
+            this.api.putLike(this.cardId)
                 .then((res) => {
-                    this._updateLikes(res.data, cardContainer);
                     console.log(res);
-                    console.log('лайк поставили');
+                    this._updateLikes(this.heart, res.data)
                 })
         }
 
     }
 
-    _updateLikes(cardValue, cardContainer) {
-        let likes = cardValue.likes.length;
+    _updateLikes(heart, cardValue) {
         this.likers = cardValue.likes;
-        this._setLikes(cardContainer, likes);
-            cardContainer.querySelector(".place-card__like-icon")
-                .classList.toggle('place-card__like-icon_liked');
-
+        this.likes = cardValue.likes.length;
+        this._renderLikeHeart(heart);
+        this._getLikes();
     }
 
-    _setLikes(cardContainer, likes) {
-        cardContainer.querySelector(".place-card__likes-count").textContent = likes;
+    _renderLikeHeart(heart) {
+        heart.classList.toggle('place-card__like-icon_liked');
     }
 
-    _likedCard(likers, myId) {
+    _getLikes() {
+        this.cardElement.querySelector(".place-card__likes-count").textContent = this.likes;
+    }
+
+    _likedCard() {
         let likeStatement = false;
 
-        likers.forEach(element => {
-            if (element === myId) {
+        this.likers.forEach(element => {
+            if (element === this.myId) {
                 likeStatement = true;
                 return
             }
@@ -64,11 +72,11 @@ export default class Card {
         return likeStatement
     }
 
-    _remove(cardId, cardContainer) {
+    _remove() {
         if (window.confirm("Вы действительно хотите удалить эту карточку?")) {
-            this.api.deleteCard(cardId)
+            this.api.deleteCard(this.cardId)
                 .then((result) => {                                                           //если удалили с сервера - убираем карточку
-                    cardContainer.remove();
+                    this.cardElement.remove();
                     console.log(result);
                 })
                 .catch((err) => {
@@ -77,15 +85,7 @@ export default class Card {
         }
     }
 
-    create(value, myId) {
-    this.name = value.name;
-    this.link = value.link;
-    this.likes = value.likes.length;
-    this.likers = value.likes;
-    this.cardId = value._id;
-    this.ownerId = value.owner;
-    this.myId = myId;
-    
+    create() {
         const cardContainer = document.createElement('div');                              // создаем div-контейнер для карточки - на входе объект со свойствами карточки name и link                                       
         cardContainer.insertAdjacentHTML('beforeend', `             
             <div class="place-card">
@@ -100,30 +100,28 @@ export default class Card {
                 </div>
             </div>`);                                                                     //вкладываем в контейнер нужную разметку  
 
-        if (this._canDelete(myId)) {                                                           //если можем удалить - создаем элемент кнопки удаления
+        if (this.canDelete()) {                                                           //если можем удалить - создаем элемент кнопки удаления
             const imageContainer = cardContainer.querySelector('.place-card__image');
             imageContainer.insertAdjacentHTML('beforeend', `<button class="place-card__delete-icon"></button>`);
         }
 
         this.cardElement = cardContainer;
-        
+        this.heart = this.cardElement.querySelector(".place-card__like-icon");
 
         cardContainer.querySelector(".place-card__name").textContent = this.name;         //устанавливаем название и фон карточки                       
         cardContainer.querySelector(".place-card__image").style.backgroundImage = `url(${this.link})`;
-
-        if (this._likedCard(this.likers, this.myId)) {
-            cardContainer.querySelector(".place-card__like-icon").classList.add('place-card__like-icon_liked')
+        if (this._likedCard()) {
+            this._renderLikeHeart(this.heart)
         };                             //устанавливаем состояние сердчека-лайка
-        this._setLikes(cardContainer, this.likes);                                                                 //устанавливаем количество лайков
+        this._getLikes();                                                                 //устанавливаем количество лайков
 
         //для возможности использования элемента в других методах этого же класса
-        this._deleteListener(this.myId, this.cardId, cardContainer);
-        this._likeListener(this.myId, this.cardId, cardContainer, this.likers);
+        this._setEventListeners();
         return cardContainer;                                                             // получаем  DOM-объект, со всеми свойствами - картинкой,кнопками, текстом
     }
 
-    _canDelete(myId) {
-        if (this.ownerId === myId) { return true }
+    canDelete() {
+        if (this.ownerId === this.myId) { return true }
         else { return false }
     }
 

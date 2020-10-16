@@ -1,17 +1,18 @@
-
+import Card from './Card.js';
 
 export default class PlusCard {
-    constructor(formElement, doList, api, onecard) {
+    constructor(formElement, doList, api) {
         this.doList = doList;
         this.api = api;
-        this.onecard = onecard;
         this.formElement = formElement;
         this._addNewCard = this._addNewCard.bind(this);
         this._setSubmitListener()
     }
 
     _renderCard(value, owner) {
-        const currentCard = this.onecard.create(value, owner);
+        const currentCard = new Card(value, owner, this.api)
+        .create();
+        // const currentCard = this.onecard.create(value, owner);
         this.doList.addCard(currentCard);                   //создаем карточку и добавляем на страницу
     }
 

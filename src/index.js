@@ -48,10 +48,9 @@ import Signup from './js/Signup.js';
     const api = new Api({baseUrl: serverUrl});
     
     const newProfile = new UserInfo(profileForm, profileElement, api);                //создаем объект для обработки формы профиля, передаем методы api
-    const oneCard = new Card(api);                                              //объект с методами создания и обработки одной отдельной карточки
     const doList = new CardList(rootContainer);
     const editAvatar = new Avatar(avatarForm, avatarElement, api);                    //создаем объект для обработки формы редактирования аватара, передаем методы api
-    const cards = new PlusCard(plusCardForm, doList, api, oneCard);                            //методы для обработки формы добавления карточки
+    const cards = new PlusCard(plusCardForm, doList, api);                            //методы для обработки формы добавления карточки
     const signinUser = new Signin(signinForm, api);
     const signupUser = new Signup(signupForm, api);          
     
@@ -66,11 +65,14 @@ import Signup from './js/Signup.js';
         })
         .finally(() => {
             api.getInitialCards()                                                           //запрашиваем карточки, получаем промис
-            .then((result) => {                                                           //если получили массив - выводим карточки
+            .then((result) => {    
+              console.log(result);                                                       //если получили массив - выводим карточки
               result.data.forEach((value) => {
-                const startCard = oneCard.create(value, myId);                                   //создаем контейнер с карточкой, учитываем myId для показа лайков
-                doList.addCard(startCard);                                                //добавляем на страницу созданный контейнер карточки                                                               
-              })
+                const startCard =
+                new Card(value, myId, api)                                              // передавать весь объект целиком
+                  .create();                                                            //контейнер с карточкой
+              doList.addCard(startCard);                                                //добавляем на страницу созданный контейнер карты                                                               
+                  })
               new Popup(popupCardContainer, '.place-card__image', validator);             //и только теперь начинаем слущать открытие попапов на карточках
           })
             .catch((err) => {
