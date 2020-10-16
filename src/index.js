@@ -65,8 +65,7 @@ import Signup from './js/Signup.js';
         })
         .finally(() => {
             api.getInitialCards()                                                           //запрашиваем карточки, получаем промис
-            .then((result) => {    
-              console.log(result);                                                       //если получили массив - выводим карточки
+            .then((result) => {                                                         //если получили массив - выводим карточки
               result.data.forEach((value) => {
                 const startCard =
                 new Card(value, myId, api)                                              // передавать весь объект целиком
@@ -78,16 +77,9 @@ import Signup from './js/Signup.js';
             .catch((err) => {
               console.log(err);
             })
-    
-      
     })
       
-  
-
-  
-  
     const validator = new FormValidator(errorsMessages);                               //создаем валидатор, передаем тексты ошибок
-  
     const editProfilePopup = new Popup(popupProfileContainer, '.user-info__button', validator);
     const editAvatarPopup = new Popup(popupAvatarContainer, '.user-info__photo', validator);
     const signinPopup = new Popup(popupSigninContainer, '.menu__button_type_signin', validator);

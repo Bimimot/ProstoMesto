@@ -29,15 +29,13 @@ export default class Card {
         if (this._likedCard()) {
             this.api.deleteLike(this.cardId)
                 .then((res) => {
-                    console.log(res);
                     this._updateLikes(this.heart, res.data)
-                    
+
                 })
         }
         else {
             this.api.putLike(this.cardId)
                 .then((res) => {
-                    console.log(res);
                     this._updateLikes(this.heart, res.data)
                 })
         }
@@ -68,7 +66,6 @@ export default class Card {
                 return
             }
         });
-
         return likeStatement
     }
 
@@ -77,7 +74,6 @@ export default class Card {
             this.api.deleteCard(this.cardId)
                 .then((result) => {                                                           //если удалили с сервера - убираем карточку
                     this.cardElement.remove();
-                    console.log(result);
                 })
                 .catch((err) => {
                     console.log(err);
