@@ -1,7 +1,7 @@
 {
-  "name": "mesto",
+  "name": "ProstoMesto",
   "version": "1.0.0",
-  "homepage": "https://bimimot.github.io/mesto/",
+  "homepage": "https://bimimot.github.io/ProstoMesto/",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -11,12 +11,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Bimimot/mesto.git"
+    "url": "git+https://github.com/Bimimot/ProstoMesto.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/Bimimot/mesto/issues"
+    "url": "https://github.com/Bimimot/ProstoMesto/issues"
   },
   "devDependencies": {
     "@babel/cli": "^7.10.1",
