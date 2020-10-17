@@ -43,8 +43,10 @@ import Signup from './js/Signup.js';
       validatePassword: 'Нужно не менее 8 символов',
     }
 
-    // const serverUrl = (NODE_ENV === 'development') ? 'http://praktikum.tk/cohort10' : 'https://praktikum.tk/cohort10';
-    const serverUrl = 'http://localhost:3000';
+    const serverUrl = (NODE_ENV === 'development') ? 'http://api.prostomesto.tk' : 'https://api.prostomesto.tk';
+
+    // const serverUrl = 'http://localhost:3000'
+    
     const api = new Api({baseUrl: serverUrl});
     
     const newProfile = new UserInfo(profileForm, profileElement, api);                //создаем объект для обработки формы профиля, передаем методы api
@@ -54,17 +56,17 @@ import Signup from './js/Signup.js';
     const signinUser = new Signin(signinForm, api);
     const signupUser = new Signup(signupForm, api);          
     
-    api.getUser()                                                                    //получаем данные о пользователе, получаем промис
+    api.getUser()                                                                     //получаем данные о пользователе, получаем промис
     .then((result) => {
-      myId = result.data._id;                                                           //запоминаю свой ID для использования
-      newProfile.renderUser(result.data.name, result.data.about);                            //если успешно - отрисовываем профиль
-      editAvatar.renderAvatar(result.data.avatar);                                      //и аватар  
+      myId = result.data._id;                                                         //запоминаю свой ID для использования
+      newProfile.renderUser(result.data.name, result.data.about);                     //если успешно - отрисовываем профиль
+      editAvatar.renderAvatar(result.data.avatar);                                    //и аватар  
       })
       .catch((err) => {
           console.log(err);
         })
         .finally(() => {
-            api.getInitialCards()                                                           //запрашиваем карточки, получаем промис
+            api.getInitialCards()                                                       //запрашиваем карточки, получаем промис
             .then((result) => {                                                         //если получили массив - выводим карточки
               result.data.forEach((value) => {
                 const startCard =

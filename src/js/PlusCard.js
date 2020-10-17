@@ -12,7 +12,6 @@ export default class PlusCard {
     _renderCard(value, owner) {
         const currentCard = new Card(value, owner, this.api)
             .create();
-        // const currentCard = this.onecard.create(value, owner);
         this.doList.addCard(currentCard);                   //создаем карточку и добавляем на страницу
     }
 
