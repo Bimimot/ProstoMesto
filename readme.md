@@ -23,6 +23,18 @@ ProstoMesto
 - редактировать свою аватарку
 
 
+ТЕСТОВЫЕ ПОЛЬЗОВАТЕЛИ
+-----------
+- Первый
+Email: test@yandex.ru,
+Pass: qwertyqwerty
+
+- Второй
+Email: test2@yandex.ru,
+Pass: qwertyqwerty
+
+
+
 БЭКЕНД
 -----------
 https://github.com/Bimimot/MestoAPI
@@ -44,6 +56,7 @@ https://github.com/Bimimot/MestoAPI
 - настроено хэширование CSS и JS файлов 
 - настроена транспиляция кода при помощи Babel'я
 - проект размещен на том же сервере, что и бэкенд проекта
+
 
 
 АВТОР
